@@ -1,8 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import axios from 'axios'
+import { Video } from '../types'
+import VideoCard from '../components/VideoCard'
+import NoResults from '../components/NoResults'
 
+interface Props {
+  videos: Video[]
+}
 
-export default function Home() {
+export default function Home({ videos }: Props) {
   return (
     <>
       <Head>
@@ -11,9 +18,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className='bg-red-400'>
-        Klipp
+      <div className='flex flex-col gap-10 videos h-full'>
+        {videos.length > 0 ? (videos?.map((video: Video) => (<VideoCard post={video} key={video._id} />))) : (<NoResults text="No Videos" />)}
       </div>
     </>
   )
+}
+
+export const getServerSideProps = async () => {
+  const { data } = await axios.get(`http://localhost:3000/api/post`);
+
+  return {
+    props: {
+      videos: data
+    }
+  }
 }
