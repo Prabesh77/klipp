@@ -1,12 +1,20 @@
+import { MdOutlineVideocamOff } from 'react-icons/md';
+import { BiCommentX } from 'react-icons/bi'
 
-interface Props {
-    text: string
+interface IProps {
+    text: string;
 }
 
-const NoResults = ({ text }: Props) => {
+const NoResults = ({ text }: IProps) => {
     return (
-        <div>NoResults</div>
-    )
-}
+        <div className='flex flex-col justify-center items-center h-full w-full'>
+            <p className='text-8xl'>
+                {text.includes('comments') ? <BiCommentX /> : <MdOutlineVideocamOff />}
 
-export default NoResults
+            </p>
+            <p className='text-2xl text-center'>{text}</p>
+        </div>
+    );
+};
+
+export default NoResults;
